@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    --site-primary: #1a7709;
+    --bg-primary: #0d0d0d;
+}
+
+body{
+    background-color: var(--bg-primary);
+    color: #fff;
+}
+
+@layer components{
+    .bg-primary{
+        background-color: var(--site-primary);
+    }
+    .text-primary{
+        color: var(--site-primary);
+    }
+    .btn{
+        @apply text-white px-11 py-2 text-sm rounded-full bg-primary hover:scale-95;
+        /* background-color: var(--site-primary); */
+        transition: all .3s ease-in-out;
+    }
+    .active-link{
+        @apply text-primary font-bold;
+    }
+    .hover-link{
+        @apply hover:text-gray-500; 
+    }
+}
