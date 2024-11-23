@@ -60,7 +60,8 @@ const router = createRouter({
 			    next();
 		    else
 			    next({name: 'login'});
-	    }
+	    },
+      meta: {auth: true}
     },
     {
       path: '/:pathMatch(.*)*',
@@ -68,6 +69,10 @@ const router = createRouter({
       component: () => import('../components/404.vue') 
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  globalStore.verifyToken(next, to);
 })
 
 export default router

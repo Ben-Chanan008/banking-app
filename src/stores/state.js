@@ -50,5 +50,36 @@ export const useGlobalStore = defineStore('global', {
 		setHost(newHost){
 			this.host = newHost;
 		},
+
+		verifyToken(next, to){
+			// console.log(localStorage.getItem('token'));
+			// next();
+			try {
+				if(!userToken.value)
+					next();
+				else
+					axios.get(`${this.host}/api/user/auth/verify`, {
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${userToken.value}`
+						}
+					}).then((response) => {
+						if(response.data.is_verified)
+							next();
+					}).catch(error => {
+						if(!error.response.data.is_verified){
+							localStorage.clear();
+							if(to.meta.auth){
+								next({ name: 'login' });
+							} else{
+								next();
+							}
+						}	
+
+					})
+			} catch (error) {
+				console.log(error);
+			}
+		}
 	}
 });

@@ -22,7 +22,7 @@
                     <li class="mx-3"><RouterLink :class="[isActive('/contact') ? 'active-link' : 'hover-link']" to="/contact">Contact</RouterLink></li>
                 </ul>
             </div>
-            <div v-if="!globalStore.user">
+            <div v-if="!globalStore.token">
                 <RouterLink class="btn" to="/account/register">
                     <i class="far fa-lock mr-2"></i>
                     <span>Create Account</span>
