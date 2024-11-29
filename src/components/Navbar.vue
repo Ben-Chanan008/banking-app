@@ -5,7 +5,7 @@
         return route.path === routePath
     }
     import { useGlobalStore } from '@/stores/state';
-    const globalStore = useGlobalStore();
+	const globalStore = useGlobalStore();
 </script>
 
 <template>
@@ -29,9 +29,8 @@
                 </RouterLink>
             </div>
             <div v-else>
-                {{ globalStore.getInitials }}
-                <button>
-                    <i class="far fa-user-circle fa-2x"></i>
+                <button @click="globalStore.logout()">
+                    <i class="far fa-power-off fa-2x"></i>
                 </button>
             </div>
         </div>

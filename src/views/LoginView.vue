@@ -11,12 +11,12 @@
   import axios from 'axios';
   import { useGlobalStore } from "@/stores/state.js";
 
-  const router = useRouter();
+const router = useRouter();
   const globalStore = useGlobalStore();
 
   const form = reactive({
-    logger: '@benchanan',
-    password: 'password'
+	logger: '@benchanan08',
+    password: 'J4k9V8tB'
   });
 
   const rules = computed(() => {
@@ -51,7 +51,7 @@
           });
 
           setTimeout(() => {
-            router.push('/user/dashboard');
+			router.go();
           }, 5000);
 
         }).catch(error => {

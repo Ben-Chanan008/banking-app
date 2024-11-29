@@ -10,7 +10,7 @@
     import { useRouter, RouterLink } from 'vue-router';
     import axios from 'axios';
 
-    const router = useRouter();
+    const router = '../router'
 
     const form = reactive({
         fullName: {
@@ -80,7 +80,7 @@
                   });
 
                   setTimeout(() => {
-                    router.push('/dashboard');
+                    router.go();
                   }, 5000);
                 }).catch(error => {
                     let errorMsg = error.response.data.message,

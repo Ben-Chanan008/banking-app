@@ -1,12 +1,13 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia';
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import router from '../router';
 
 const userToken = ref(localStorage.getItem('token'));
 const decodedToken = ref(null);
 
-if(userToken.value)
+if (userToken.value)
 	decodedToken.value = jwtDecode(userToken.value);
 
 export const useGlobalStore = defineStore('global', {
@@ -15,71 +16,81 @@ export const useGlobalStore = defineStore('global', {
 		token: decodedToken.value,
 		userObj: ref(null)
 	}),
-	
+
 	getters: {
-		async fetchUser(state){
-			return new Promise(async(resolve, reject) => {
-				try{	
+		async fetchUser (state) {
+			return new Promise(async (resolve, reject) => {
+				try {
 					let dataValues;
 					const response = await axios.get(`${state.host}/api/user/get-user/${state.token.id}`, {
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': `Bearer ${userToken.value}`
 						}
+					}).catch(error => {
+						localStorage.removeItem('token');
+						router.push('/user/login');
 					});
 					resolve(response.data);
-				} catch (error){
+				} catch (error) {
 					reject(error);
-				}			
+				}
 			});
 		},
-		
-		user(){
+
+		user () {
 			this.fetchUser.then(res => {
 				this.userObj = res.data
 			});
 			return this.userObj;
 		},
-	
-		fullName(){
+
+		fullName () {
 			return this.user.first_name + ' ' + this.user.last_name
 		},
+
 	},
 
 	actions: {
-		setHost(newHost){
+		setHost (newHost) {
 			this.host = newHost;
 		},
-
-		verifyToken(next, to){
+		async verifyToken () {
 			// console.log(localStorage.getItem('token'));
 			// next();
+			let tokenValue;
 			try {
-				if(!userToken.value)
-					next();
-				else
-					axios.get(`${this.host}/api/user/auth/verify`, {
+				if (!userToken.value)
+					return false;
+				else {
+					const response = await axios.get(`${this.host}/api/user/auth/verify`, {
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': `Bearer ${userToken.value}`
 						}
-					}).then((response) => {
-						if(response.data.is_verified)
-							next();
 					}).catch(error => {
-						if(!error.response.data.is_verified){
+						console.log(error)
+						if (error.response.data.is_verified === false) {
 							localStorage.clear();
-							if(to.meta.auth){
-								next({ name: 'login' });
-							} else{
-								next();
-							}
-						}	
+							return false;
+						}
+					});
 
-					})
+					if (response.data.is_verified)
+						return true;
+				}
+
 			} catch (error) {
 				console.log(error);
 			}
+		},
+		logout () {
+			axios.get(`${this.host}/api/user/auth/logout/${this.token.id}`).then((res) => {
+				if (res) {
+					localStorage.clear();
+					router.go();
+				}
+			}).catch((error) => { console.log(error) })
 		}
 	}
 });
