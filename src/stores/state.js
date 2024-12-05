@@ -14,7 +14,7 @@ export const useGlobalStore = defineStore('global', {
 	state: () => ({
 		host: 'http://localhost:3001',
 		token: decodedToken.value,
-		userObj: ref(null)
+		userObj: reactive({})
 	}),
 
 	getters: {
@@ -45,9 +45,16 @@ export const useGlobalStore = defineStore('global', {
 			return this.userObj;
 		},
 
-		fullName () {
-			return this.user.first_name + ' ' + this.user.last_name
-		},
+		fullName () { return this.user.first_name + ' ' + this.user.last_name },
+
+		initials () {
+			const nameParts = this.fullName.trim().split(' ');
+			const initials = nameParts.filter((part) => part.length > 0)
+				.map(part => part[0].toUpperCase())
+				.join('')
+
+			return initials
+		}
 
 	},
 
