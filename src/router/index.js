@@ -34,7 +34,7 @@ const router = createRouter({
 			name: 'create-account',
 			component: () => import('../views/RegisterView.vue'),
 			beforeEnter: (to, from, next) => {
-				if (globalStore.token)
+				if (globalStore.token || globalStore.verifyToken())
 					next({ name: 'dashboard' });
 				else
 					next();

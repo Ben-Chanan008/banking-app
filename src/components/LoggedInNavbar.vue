@@ -9,7 +9,7 @@
 
 	const toggleDropDown = () => {
 		dropdown.value.classList.toggle('hidden');		
-}
+	}
 
 	const dashboard = () => router.push({ name: 'dashboard' })
 </script>
@@ -32,7 +32,7 @@
 				<div class="user-account hover:cursor-pointer" @click="toggleDropDown">
 					<span>{{ globalStore.initials}}</span>
 				</div>
-				<div ref="dropdown" class="absolute dropdown hidden w-full -left-0 mt-3 rounded-lg bg-gray-900 p-4">
+				<div ref="dropdown" class="z-10 absolute dropdown hidden w-full -left-0 mt-3 rounded-lg bg-gray-900 p-4">
 					<ul class="w-full text-sm">
 						<li class="mb-3 hover:cursor-pointer hover:font-bold hover:translate-x-0.5 transition-all">
 							<i class="mr-2 far fa-gear text-yellow-300"></i>

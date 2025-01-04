@@ -10,7 +10,7 @@
 </script>
 
 <template>
-    <nav class="" v-if="!globalStore.token && !globalStore.verifyToken()">
+    <nav class="p-4" v-if="!globalStore.token || !globalStore.verifyToken()">
         <div class="mx-3 flex items-center justify-between p-3">
             <div class="logo">
                 <RouterLink to="/" class="font-bold">Pixlr Bank</RouterLink>

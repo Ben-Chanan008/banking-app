@@ -10,7 +10,7 @@
 	<div class="xl:px-4 px-2">
 		<section class="p-16 rounded-lg">
 			<p>Total Balance</p>
-			<HeadText>$-20,000.34</HeadText>
+			<HeadText>$20,000.34</HeadText>
 			<div class="mt-4 flex items-center justify-between">
 				<div>				
 					<p class="">Exp Date</p>
@@ -35,7 +35,7 @@
 							</div>
 							<p>RBC Canada</p>
 						</div>
-						<p>-$2400.00</p>
+						<p>-$2,400.00</p>
 					</div>
 					<div class="flex justify-between mb-4 items-center">
 						<div class="flex items-center gap-3">
@@ -44,7 +44,7 @@
 							</div>
 							<p>RBC Canada</p>
 						</div>
-						<p>-$2400.00</p>
+						<p>-$400.40</p>
 					</div>
 				</div>
 			</Card>

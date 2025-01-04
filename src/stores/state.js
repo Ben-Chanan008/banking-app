@@ -21,17 +21,20 @@ export const useGlobalStore = defineStore('global', {
 		async fetchUser (state) {
 			return new Promise(async (resolve, reject) => {
 				try {
-					let dataValues;
-					const response = await axios.get(`${state.host}/api/user/get-user/${state.token.id}`, {
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${userToken.value}`
-						}
-					}).catch(error => {
-						localStorage.removeItem('token');
-						router.push('/user/login');
-					});
-					resolve(response.data);
+					if (!userToken.value)
+						reject('No token provided!');
+					else {
+						const response = await axios.get(`${state.host}/api/user/get-user/${state.token.id}`, {
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Bearer ${userToken.value}`
+							}
+						}).catch(error => {
+							localStorage.removeItem('token');
+							router.push('/user/login');
+						});
+						resolve(response.data);
+					}
 				} catch (error) {
 					reject(error);
 				}
@@ -41,7 +44,7 @@ export const useGlobalStore = defineStore('global', {
 		user () {
 			this.fetchUser.then(res => {
 				this.userObj = res.data
-			});
+			}).catch((error => router.push({ name: 'login' })));
 			return this.userObj;
 		},
 
@@ -68,7 +71,7 @@ export const useGlobalStore = defineStore('global', {
 			let tokenValue;
 			try {
 				if (!userToken.value)
-					return false;
+					tokenValue = false;
 				else {
 					const response = await axios.get(`${this.host}/api/user/auth/verify`, {
 						headers: {
@@ -79,17 +82,19 @@ export const useGlobalStore = defineStore('global', {
 						console.log(error)
 						if (error.response.data.is_verified === false) {
 							localStorage.clear();
-							return false;
+							tokenValue = false;
 						}
 					});
 
 					if (response.data.is_verified)
-						return true;
+						tokenValue = true;
 				}
 
 			} catch (error) {
 				console.log(error);
 			}
+
+			return tokenValue;
 		},
 		logout () {
 			axios.get(`${this.host}/api/user/auth/logout/${this.token.id}`).then((res) => {

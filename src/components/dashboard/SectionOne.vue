@@ -2,6 +2,9 @@
 	import HeadText from '../HeadText.vue';
 	import Card from '../Card.vue';
 	import { useGlobalStore } from "@/stores/state.js";
+	import BarChart from '../BarChart.vue';
+	import DoughnutChart from '../DoughnutChart.vue';
+	
 	const globalStore = useGlobalStore();
 </script>
 
@@ -20,7 +23,7 @@
 				<p class="font-bold">Revenue Flow</p>
 				<p>View all <i class="far fa-angle-right"></i></p>
 			</div>
-			<div class="p-32"></div>
+			<div class="p-3"><BarChart /></div>
 		</Card>
 		<div class="grid grid-cols-3/1 gap-3">
 			<Card class-name="rounded-lg row-span-2">
@@ -28,15 +31,15 @@
 					<p class="font-bold">Expense Report</p>
 					<p>View all <i class="far fa-angle-right"></i></p>
 				</div>
-				<!-- <div class="p-32"></div> -->
+				<div class="p-5"><DoughnutChart /></div>
 			</Card>
-			<Card class-name="rounded-lg">
+			<Card class-name="h-full rounded-lg">
 				<div class="flex justify-between">
 					<p class="font-bold">Weekly Expense</p>
 					<p><i class="far fa-ellipsis"></i></p>
 				</div>
 				<p class="mt-4 text-sm">This weeks' total expense</p>
-				<div class="p-6">
+				<div class="flex h-3/4 items-center justify-center">
 					<HeadText>$2.2 k</HeadText>
 				</div>
 			</Card>
@@ -46,8 +49,8 @@
 					<p><i class="far fa-ellipsis"></i></p>
 				</div>
 				<p class="mt-4 text-sm">This weeks' total income</p>
-				<div class="p-6">
-					<HeadText>$100 k</HeadText>
+				<div class="flex h-3/4 items-center justify-center">
+					<HeadText>$100Bn</HeadText>
 				</div>
 			</Card>
 		</div>
