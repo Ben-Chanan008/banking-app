@@ -91,6 +91,9 @@ export const useGlobalStore = defineStore('global', {
 					router.go();
 				}
 			}).catch((error) => { console.log(error) })
+		},
+		runtest(){
+			console.log('I want more');
 		}
 	}
 });

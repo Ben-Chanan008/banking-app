@@ -51,17 +51,18 @@ const router = useRouter();
           });
 
           setTimeout(() => {
-			router.go();
+			      router.go();
           }, 5000);
 
         }).catch(error => {
-          let errorMsg = error.response.data.message,
+          // console.log(error)
+          let errorMsg = error.message,
               msg = new Msg('.alerts');
           msg.init({
             type: 'error',
             mode: 'dark',
             autoClose: true,
-            msg: errorMsg,
+            msg: 'We\'re so sorry, The server is down!',
           });
         });
       } catch (error){

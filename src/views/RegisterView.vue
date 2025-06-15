@@ -101,68 +101,70 @@
 
 <template>
     <Message />
-    <form @submit.prevent="handleFormSubmit" class="flex justify-center p-8">
-        <Card class-name="rounded-lg">
-            <Header class-name="mt-8">Create Your Account!</Header>
-            <p class="text-center">Fill out the following information carefully.</p>
-            <div class="px-8 mb-8 mt-8">
-                <p class="font-bold"><i class="far fa-user mr-2"></i>Full Name</p>
-                <div class="flex mt-2">
-                    <div>
-                        <input v-model="form.fullName.firstname" type="text" placeholder="First Name" class="block text-white focus:outline-none bg-transparent py-2"/>
-                    </div>
-                    <div class="mb-4 px-8">
-                        <input v-model="form.fullName.lastname" type="text" placeholder="Last Name" class="block text-white focus:outline-none bg-transparent py-2"/>
-                    </div>
-                </div>
-                <div v-for="error in v$.fullName.$errors">
-                    <ErrorMessage :message="error.$message"/>
-                </div>
-            </div>
-            <div class="mt-8 px-8">
-                <p class="font-bold"><i class="far fa-address-card mr-2"></i>Social Information</p>
-                <div class="flex mt-2">
-                    <div>
-                        <div class="mb-4">
-                            <input v-model="form.social.email" type="email" placeholder="Email address" class="block text-white focus:outline-none bg-transparent py-2"/>
-                        </div>
-                        <div class="mb-4">
-                            <input v-model="form.social.username" type="text" placeholder="Username" class="block text-white focus:outline-none bg-transparent py-2"/>
-                        </div>
-                    </div>
-                    <div class="px-8">
-                        <div class="mb-4">
-                            <input v-model="form.social.phone" type="tel" placeholder="Phone Number" class="block text-white focus:outline-none bg-transparent py-2"/>
-                        </div>
+    <div class="h-screen flex justify-center flex-col items-center">
+        <form @submit.prevent="handleFormSubmit" class="p-8">
+            <Card class-name="rounded-lg">
+                <Header class-name="mt-8">Create Your Account!</Header>
+                <p class="text-center">Fill out the following information carefully.</p>
+                <div class="px-8 mb-8 mt-8">
+                    <p class="font-bold"><i class="far fa-user mr-2"></i>Full Name</p>
+                    <div class="flex mt-2">
                         <div>
-                            <input v-model="form.social.address" type="text" placeholder="Address" class="block focus:outline-none bg-transparent py-2 text-white"/>
+                            <input v-model="form.fullName.firstname" type="text" placeholder="First Name" class="block text-white focus:outline-none bg-transparent py-2"/>
+                        </div>
+                        <div class="mb-4 px-8">
+                            <input v-model="form.fullName.lastname" type="text" placeholder="Last Name" class="block text-white focus:outline-none bg-transparent py-2"/>
                         </div>
                     </div>
-                </div>
-                <div v-for="error in v$.social.$errors">
-                    <ErrorMessage :message="error.$message"/>
-                </div>
-            </div>
-            <div class="mt-8 px-8">
-                <p class="font-bold"><i class="mr-2 far fa-lock"></i>Secure Your Account</p>
-                <div class="flex mt-2">
-                    <div class="w-full">
-                        <input v-model="form.secure.password" type="password" placeholder="Password" class="block text-white w-full focus:outline-none bg-transparent py-2"/>
-                    </div>
-                    <div class="w-full px-8">
-                        <input v-model="form.secure.confirm" type="password" placeholder="Confirm Password" class="block text-white w-full focus:outline-none bg-transparent py-2"/>
+                    <div v-for="error in v$.fullName.$errors">
+                        <ErrorMessage :message="error.$message"/>
                     </div>
                 </div>
-                <div v-for="error in v$.secure.$errors">
-                    <ErrorMessage :message="error.$message"/>
+                <div class="mt-8 px-8">
+                    <p class="font-bold"><i class="far fa-address-card mr-2"></i>Social Information</p>
+                    <div class="flex mt-2">
+                        <div>
+                            <div class="mb-4">
+                                <input v-model="form.social.email" type="email" placeholder="Email address" class="block text-white focus:outline-none bg-transparent py-2"/>
+                            </div>
+                            <div class="mb-4">
+                                <input v-model="form.social.username" type="text" placeholder="Username" class="block text-white focus:outline-none bg-transparent py-2"/>
+                            </div>
+                        </div>
+                        <div class="px-8">
+                            <div class="mb-4">
+                                <input v-model="form.social.phone" type="tel" placeholder="Phone Number" class="block text-white focus:outline-none bg-transparent py-2"/>
+                            </div>
+                            <div>
+                                <input v-model="form.social.address" type="text" placeholder="Address" class="block focus:outline-none bg-transparent py-2 text-white"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-for="error in v$.social.$errors">
+                        <ErrorMessage :message="error.$message"/>
+                    </div>
                 </div>
-            </div>
-            <div class="w-full mt-8 flex">
-                <button type="submit" class="w-[94%] mx-auto btn">Create My Account</button>
-            </div>
-        </Card>
-    </form>
-    <p class="pb-3 text-center">Already have an account? <RouterLink to="/user/login" class="text-green-500">Login</RouterLink></p>
+                <div class="mt-8 px-8">
+                    <p class="font-bold"><i class="mr-2 far fa-lock"></i>Secure Your Account</p>
+                    <div class="flex mt-2">
+                        <div class="w-full">
+                            <input v-model="form.secure.password" type="password" placeholder="Password" class="block text-white w-full focus:outline-none bg-transparent py-2"/>
+                        </div>
+                        <div class="w-full px-8">
+                            <input v-model="form.secure.confirm" type="password" placeholder="Confirm Password" class="block text-white w-full focus:outline-none bg-transparent py-2"/>
+                        </div>
+                    </div>
+                    <div v-for="error in v$.secure.$errors">
+                        <ErrorMessage :message="error.$message"/>
+                    </div>
+                </div>
+                <div class="w-full mt-8 flex">
+                    <button type="submit" class="w-[94%] mx-auto btn">Create My Account</button>
+                </div>
+            </Card>
+        </form>
+        <p class="pb-3 text-center">Already have an account? <RouterLink to="/user/login" class="text-green-500">Login</RouterLink></p>
+    </div>
 </template>
 
 <style scoped>
