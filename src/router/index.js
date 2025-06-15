@@ -64,6 +64,18 @@ const router = createRouter({
 			meta: { auth: true }
 		},
 		{
+			path: '/user/dashboard/wallet',
+			name: 'wallet',
+			component: () => import('../views/DashboardView.vue'),
+			beforeEnter: (to, from, next) => {
+				if (globalStore.token && globalStore.verifyToken())
+					next();
+				else
+					next({ name: 'login' });
+			},
+			meta: { auth: true }
+		},
+		{
 			path: '/:pathMatch(.*)*',
 			name: 'not-found',
 			component: () => import('../components/404.vue')

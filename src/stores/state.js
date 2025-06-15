@@ -14,7 +14,8 @@ export const useGlobalStore = defineStore('global', {
 	state: () => ({
 		host: 'http://localhost:3001',
 		token: decodedToken.value,
-		userObj: reactive({})
+		userObj: reactive({}),
+		msg: new Msg('.alerts')
 	}),
 
 	getters: {
@@ -65,6 +66,9 @@ export const useGlobalStore = defineStore('global', {
 		setHost (newHost) {
 			this.host = newHost;
 		},
+		runtest(data){
+			console.log(data);
+		},
 		async verifyToken () {
 			// console.log(localStorage.getItem('token'));
 			// next();
@@ -80,6 +84,14 @@ export const useGlobalStore = defineStore('global', {
 						}
 					}).catch(error => {
 						console.log(error)
+						if(!error.hasOwnProperty('response'))
+							this.msg.init({
+								mode: 'dark',
+								duration: '5000',
+								message: error.message,
+								type: 'error'
+							});					
+
 						if (error.response.data.is_verified === false) {
 							localStorage.clear();
 							tokenValue = false;

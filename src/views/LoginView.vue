@@ -39,7 +39,7 @@ const router = useRouter();
           }
         }).then((response) => {
           let dataValues = response.data,
-              successMsg = response.data.message,
+              successMsg = response.data.message;
               msg = new Msg('.alerts');
           localStorage.setItem('token', dataValues.token);
 
@@ -51,11 +51,12 @@ const router = useRouter();
           });
 
           setTimeout(() => {
-			router.go();
+			      router.go();
           }, 5000);
 
         }).catch(error => {
-          let errorMsg = error.response.data.message,
+          console.log(error)
+          let errorMsg = !error.hasOwnProperty('response') ? error.message : error.response.data.message,
               msg = new Msg('.alerts');
           msg.init({
             type: 'error',
