@@ -2,7 +2,6 @@
   import { useGlobalStore } from "@/stores/state.js";
   import {ref, computed, reactive} from 'vue';
   const globalStore = useGlobalStore();
-
   import Sidebar from "@/components/Sidebar.vue";
   // console.log(globalStore.user)
 import Navbar from "@/components/Navbar.vue";

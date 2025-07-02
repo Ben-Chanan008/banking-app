@@ -39,7 +39,7 @@ const router = useRouter();
           }
         }).then((response) => {
           let dataValues = response.data,
-              successMsg = response.data.message;
+              successMsg = response.data.message,
               msg = new Msg('.alerts');
           localStorage.setItem('token', dataValues.token);
 

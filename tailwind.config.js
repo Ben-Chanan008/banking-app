@@ -8,7 +8,8 @@ export default {
 			},
 			gridTemplateColumns: {
 				'50/1/1': '50px 2fr 1fr',
-				'3/1': '2.3fr 1fr'
+				'3/1': '2.3fr 1fr',
+				'1/3': '1fr 2.3fr'
 			}
 			// borderBottom: {
 			//   '1':

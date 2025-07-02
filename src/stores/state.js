@@ -15,6 +15,7 @@ export const useGlobalStore = defineStore('global', {
 		host: 'http://localhost:3001',
 		token: decodedToken.value,
 		userObj: reactive({}),
+		userToken,
 		msg: new Msg('.alerts')
 	}),
 
@@ -95,6 +96,7 @@ export const useGlobalStore = defineStore('global', {
 						if (error.response.data.is_verified === false) {
 							localStorage.clear();
 							tokenValue = false;
+							router.go();
 						}
 					});
 
@@ -112,7 +114,7 @@ export const useGlobalStore = defineStore('global', {
 			axios.get(`${this.host}/api/user/auth/logout/${this.token.id}`).then((res) => {
 				if (res) {
 					localStorage.clear();
-					router.go();
+					router.push({name: 'login'});
 				}
 			}).catch((error) => { console.log(error) })
 		}

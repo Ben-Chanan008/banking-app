@@ -66,7 +66,7 @@ const router = createRouter({
 		{
 			path: '/user/dashboard/wallet',
 			name: 'wallet',
-			component: () => import('../views/DashboardView.vue'),
+			component: () => import('../views/WalletView.vue'),
 			beforeEnter: (to, from, next) => {
 				if (globalStore.token && globalStore.verifyToken())
 					next();
