@@ -12,7 +12,7 @@ if (userToken.value)
 
 export const useGlobalStore = defineStore('global', {
 	state: () => ({
-		host: 'http://localhost:3001',
+		host: 'https://banking-api.tmaat.com',
 		token: decodedToken.value,
 		userObj: reactive({}),
 		userToken,

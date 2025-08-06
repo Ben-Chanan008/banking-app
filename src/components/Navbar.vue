@@ -1,12 +1,13 @@
 <script setup>
     import {RouterLink, useRoute} from 'vue-router';
+    import { createPinia } from 'pinia';
     const isActive = (routePath) => {
         const route = useRoute();
         return route.path === routePath
     }
 	import { useGlobalStore } from '@/stores/state';
 	import LoggedInNavbar from './LoggedInNavbar.vue';
-	const globalStore = useGlobalStore();
+	const globalStore = useGlobalStore(createPinia());
 </script>
 
 <template>

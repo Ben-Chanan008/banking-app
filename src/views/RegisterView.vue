@@ -9,6 +9,7 @@
     import { reactive, computed } from 'vue';
     import { useRouter, RouterLink } from 'vue-router';
     import axios from 'axios';
+    import { useGlobalStore } from '@/stores/state';
 
     const router = useRouter();
 
@@ -54,7 +55,7 @@
         const result = await v$.value.$validate()
         if(result){
             try{
-                axios.post('http://localhost:3001/api/user/register', {
+                axios.post(`${useGlobalStore().host}/api/user/register`, {
                     first_name: form.fullName.firstname,
                     last_name: form.fullName.lastname,
                     email: form.social.email,
