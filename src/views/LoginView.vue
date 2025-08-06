@@ -51,12 +51,12 @@ const router = useRouter();
           });
 
           setTimeout(() => {
-			      router.go();
+			            router.go();
           }, 5000);
 
         }).catch(error => {
+          let errorMsg = !error.hasOwnProperty('response') ? error.message : error.response.data.message,
           // console.log(error)
-          let errorMsg = error.message,
               msg = new Msg('.alerts');
           msg.init({
             type: 'error',

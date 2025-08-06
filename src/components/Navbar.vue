@@ -4,12 +4,13 @@
         const route = useRoute();
         return route.path === routePath
     }
-    import { useGlobalStore } from '@/stores/state';
+	import { useGlobalStore } from '@/stores/state';
+	import LoggedInNavbar from './LoggedInNavbar.vue';
 	const globalStore = useGlobalStore();
 </script>
 
 <template>
-    <nav class="">
+    <nav class="p-4" v-if="!globalStore.token || !globalStore.verifyToken()">
         <div class="mx-3 flex items-center justify-between p-3">
             <div class="logo">
                 <RouterLink to="/" class="font-bold">Pixlr Bank</RouterLink>
@@ -22,19 +23,15 @@
                     <li class="mx-3"><RouterLink :class="[isActive('/contact') ? 'active-link' : 'hover-link']" to="/contact">Contact</RouterLink></li>
                 </ul>
             </div>
-            <div v-if="!globalStore.token">
-                <RouterLink class="btn" to="/account/register">
-                    <i class="far fa-lock mr-2"></i>
-                    <span>Create Account</span>
+            <div>
+                <RouterLink class="btn" to="/user/login">
+                    <i class="far fa-sign-in mr-2"></i>
+                    <span>Login</span>
                 </RouterLink>
-            </div>
-            <div v-else>
-                <button @click="globalStore.logout()">
-                    <i class="far fa-power-off fa-2x"></i>
-                </button>
             </div>
         </div>
     </nav>
+	<LoggedInNavbar v-else/>
 </template>
 
 <style lang="css" scoped>

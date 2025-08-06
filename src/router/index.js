@@ -30,9 +30,7 @@ const router = createRouter({
 			name: 'create-account',
 			component: () => import('../views/RegisterView.vue'),
 			beforeEnter: (to, from, next) => {
-				let globalStore = useGlobalStore()
-				globalStore.runtest();
-				if (globalStore.token)
+				if (globalStore.token || globalStore.verifyToken())
 					next({ name: 'dashboard' });
 				else
 					next();
@@ -56,6 +54,30 @@ const router = createRouter({
 			component: () => import('../views/DashboardView.vue'),
 			beforeEnter: (to, from, next) => {
 				let globalStore = useGlobalStore();
+				if (globalStore.token && globalStore.verifyToken())
+					next();
+				else
+					next({ name: 'login' });
+			},
+			meta: { auth: true }
+		},
+		{
+			path: '/user/dashboard/wallet',
+			name: 'wallet',
+			component: () => import('../views/WalletView.vue'),
+			beforeEnter: (to, from, next) => {
+				if (globalStore.token && globalStore.verifyToken())
+					next();
+				else
+					next({ name: 'login' });
+			},
+			meta: { auth: true }
+		},
+		{
+			path: '/user/dashboard/wallet',
+			name: 'wallet',
+			component: () => import('../views/WalletView.vue'),
+			beforeEnter: (to, from, next) => {
 				if (globalStore.token && globalStore.verifyToken())
 					next();
 				else

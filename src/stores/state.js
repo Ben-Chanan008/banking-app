@@ -14,24 +14,29 @@ export const useGlobalStore = defineStore('global', {
 	state: () => ({
 		host: 'http://localhost:3001',
 		token: decodedToken.value,
-		userObj: ref(null)
+		userObj: reactive({}),
+		userToken,
+		msg: new Msg('.alerts')
 	}),
 
 	getters: {
 		async fetchUser (state) {
 			return new Promise(async (resolve, reject) => {
 				try {
-					let dataValues;
-					const response = await axios.get(`${state.host}/api/user/get-user/${state.token.id}`, {
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${userToken.value}`
-						}
-					}).catch(error => {
-						localStorage.removeItem('token');
-						router.push('/user/login');
-					});
-					resolve(response.data);
+					if (!userToken.value)
+						reject('No token provided!');
+					else {
+						const response = await axios.get(`${state.host}/api/user/get-user/${state.token.id}`, {
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Bearer ${userToken.value}`
+							}
+						}).catch(error => {
+							localStorage.removeItem('token');
+							router.push('/user/login');
+						});
+						resolve(response.data);
+					}
 				} catch (error) {
 					reject(error);
 				}
@@ -41,13 +46,20 @@ export const useGlobalStore = defineStore('global', {
 		user () {
 			this.fetchUser.then(res => {
 				this.userObj = res.data
-			});
+			}).catch((error => router.push({ name: 'login' })));
 			return this.userObj;
 		},
 
-		fullName () {
-			return this.user.first_name + ' ' + this.user.last_name
-		},
+		fullName () { return this.user.first_name + ' ' + this.user.last_name },
+
+		initials () {
+			const nameParts = this.fullName.trim().split(' ');
+			const initials = nameParts.filter((part) => part.length > 0)
+				.map(part => part[0].toUpperCase())
+				.join('')
+
+			return initials
+		}
 
 	},
 
@@ -55,13 +67,16 @@ export const useGlobalStore = defineStore('global', {
 		setHost (newHost) {
 			this.host = newHost;
 		},
+		runtest(data){
+			console.log(data);
+		},
 		async verifyToken () {
 			// console.log(localStorage.getItem('token'));
 			// next();
 			let tokenValue;
 			try {
 				if (!userToken.value)
-					return false;
+					tokenValue = false;
 				else {
 					const response = await axios.get(`${this.host}/api/user/auth/verify`, {
 						headers: {
@@ -70,25 +85,36 @@ export const useGlobalStore = defineStore('global', {
 						}
 					}).catch(error => {
 						console.log(error)
+						if(!error.hasOwnProperty('response'))
+							this.msg.init({
+								mode: 'dark',
+								duration: '5000',
+								message: error.message,
+								type: 'error'
+							});					
+
 						if (error.response.data.is_verified === false) {
 							localStorage.clear();
-							return false;
+							tokenValue = false;
+							router.go();
 						}
 					});
 
 					if (response.data.is_verified)
-						return true;
+						tokenValue = true;
 				}
 
 			} catch (error) {
 				console.log(error);
 			}
+
+			return tokenValue;
 		},
 		logout () {
 			axios.get(`${this.host}/api/user/auth/logout/${this.token.id}`).then((res) => {
 				if (res) {
 					localStorage.clear();
-					router.go();
+					router.push({name: 'login'});
 				}
 			}).catch((error) => { console.log(error) })
 		},

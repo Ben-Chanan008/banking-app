@@ -10,7 +10,7 @@
     import { useRouter, RouterLink } from 'vue-router';
     import axios from 'axios';
 
-    const router = '../router'
+    const router = useRouter();
 
     const form = reactive({
         fullName: {
